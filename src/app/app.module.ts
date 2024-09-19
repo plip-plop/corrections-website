@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { DEFAULT_CURRENCY_CODE, LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -7,6 +7,11 @@ import { appTitleProvider } from './app.token';
 import { MenuComponent } from './components/menu/menu.component';
 import { ProductComponent } from './components/product/product.component';
 import { SelectProductKeyComponent } from './pipes/select-product-key/select-product-key.component';
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
+import { SortProductsPipe } from './pipes/select-product-key/sort-products.pipe';
+
+registerLocaleData(localeFr);
 
 @NgModule({
   declarations: [
@@ -14,9 +19,14 @@ import { SelectProductKeyComponent } from './pipes/select-product-key/select-pro
     MenuComponent,
     ProductComponent,
     SelectProductKeyComponent,
+    SortProductsPipe,
   ],
   imports: [BrowserModule, AppRoutingModule],
-  providers: [appTitleProvider],
+  providers: [
+    appTitleProvider,
+    { provide: LOCALE_ID, useValue: 'fr' },
+    { provide: DEFAULT_CURRENCY_CODE, useValue: 'EUR' },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
