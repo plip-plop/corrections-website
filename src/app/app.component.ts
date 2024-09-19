@@ -17,7 +17,7 @@ export class AppComponent {
       description: 'Tee-shirt col rond - Homme',
       photo: '/assets/coding-the-welsch.jpg',
       price: 20,
-      stock: 2,
+      stock: 1,
     },
     {
       id: 'world',
@@ -41,11 +41,16 @@ export class AppComponent {
       description: 'Tee-shirt col rond - Femme',
       photo: '/assets/coding-the-snow.jpg',
       price: 19,
-      stock: 2,
+      stock: 0,
     },
   ];
 
-  valoriserPanier() {
+  get hasProductsInStock(): boolean {
+    return this.products.some(({ stock }) => stock > 0);
+  }
+
+  valoriserPanier(product: Product) {
     this.total++;
+    product.stock--;
   }
 }
