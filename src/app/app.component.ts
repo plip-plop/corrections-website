@@ -1,9 +1,10 @@
 import { Component, Inject } from '@angular/core';
+import { Title } from '@angular/platform-browser';
+import { APP_TITLE } from './app.token';
 import { Product } from './components/product/product.types';
+import { SelectProductKey } from './pipes/select-product-key/select-product-key.types';
 import { BasketService } from './services/basket.service';
 import { CatalogService } from './services/catalog.service';
-import { APP_TITLE } from './app.token';
-import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +12,11 @@ import { Title } from '@angular/platform-browser';
   styleUrl: './app.component.css',
 })
 export class AppComponent {
-  products: Product[] = this.catalogService.products;
+  productKey: SelectProductKey = undefined;
+
+  get products() {
+    return this.catalogService.products;
+  }
 
   get hasProductsInStock(): boolean {
     return this.products.some(({ stock }) => stock > 0);
@@ -35,5 +40,9 @@ export class AppComponent {
     if (success) {
       this.basketService.addItem({ id, title, price });
     }
+  }
+
+  trackByProductId(_: number, { id }: Product) {
+    return id;
   }
 }

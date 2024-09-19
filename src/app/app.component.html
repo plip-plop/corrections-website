@@ -7,12 +7,15 @@
   </header>
 
   <h2 class="h4">Catalogue</h2>
-
+  <app-select-product-key class="text-end" [(productKey)]="productKey" />
   <div
     class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4"
     *ngIf="hasProductsInStock; else pasDeStock"
   >
-    <div class="col" *ngFor="let produit of products">
+    <div
+      class="col"
+      *ngFor="let produit of products; trackBy: trackByProductId"
+    >
       <!-- Extract to "src/app/product/product.component.html" -->
       <app-product
         *ngIf="produit.stock > 0"
