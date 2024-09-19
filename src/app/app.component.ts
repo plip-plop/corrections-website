@@ -25,7 +25,7 @@ export class AppComponent {
     @Inject(APP_TITLE) public appTitle: string,
     public titleService: Title
   ) {
-    titleService.setTitle('plop');
+    titleService.setTitle(appTitle);
   }
 
   valoriserPanier({ id, title, price }: Product) {
