@@ -1,5 +1,5 @@
 <div
-  [ngClass]="{ 'text-bg-warning': product.stock === 1 }"
+  [ngClass]="{ 'text-bg-warning': product!.stock === 1 }"
   class="card h-100 text-center"
 >
   <img class="card-img-top" src="{{ product.photo }}" alt="Product image" />
