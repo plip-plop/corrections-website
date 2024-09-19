@@ -11,12 +11,14 @@ import { Title } from '@angular/platform-browser';
   styleUrl: './app.component.css',
 })
 export class AppComponent {
-  total = 0;
-
   products: Product[] = this.catalogService.products;
 
   get hasProductsInStock(): boolean {
     return this.products.some(({ stock }) => stock > 0);
+  }
+
+  get total() {
+    return this.basketService.total;
   }
 
   constructor(
