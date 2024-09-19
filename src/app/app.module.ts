@@ -10,6 +10,7 @@ import { SelectProductKeyComponent } from './pipes/select-product-key/select-pro
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
 import { SortProductsPipe } from './pipes/select-product-key/sort-products.pipe';
+import { HttpClientModule } from '@angular/common/http';
 
 registerLocaleData(localeFr);
 
@@ -21,7 +22,7 @@ registerLocaleData(localeFr);
     SelectProductKeyComponent,
     SortProductsPipe,
   ],
-  imports: [BrowserModule, AppRoutingModule],
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule],
   providers: [
     appTitleProvider,
     { provide: LOCALE_ID, useValue: 'fr' },

@@ -6,7 +6,6 @@ import { SelectProductKey } from './pipes/select-product-key/select-product-key.
 import { BasketService } from './services/basket.service';
 import { CatalogService } from './services/catalog.service';
 import { HttpClient } from '@angular/common/http';
-import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -15,6 +14,7 @@ import { tap } from 'rxjs/operators';
 })
 export class AppComponent implements OnInit {
   productKey: SelectProductKey = undefined;
+  productsAffiches?: Product[];
 
   get products() {
     return this.catalogService.products;
@@ -32,16 +32,24 @@ export class AppComponent implements OnInit {
     private catalogService: CatalogService,
     private basketService: BasketService,
     @Inject(APP_TITLE) public appTitle: string,
-    public titleService: Title
+    public titleService: Title,
+    private http: HttpClient
   ) {
     titleService.setTitle(appTitle);
   }
-  ngOnInit(): void {}
+
+  ngOnInit(): void {
+    // this.catalogService.fecthProducts();
+    this.catalogService.fecthProducts2().subscribe((success) => {
+      this.productsAffiches = success;
+    });
+  }
 
   valoriserPanier({ id, title, price }: Product) {
     const success = this.catalogService.decreaseStock(id);
     if (success) {
       this.basketService.addItem({ id, title, price });
+      this.basketService.addItemAvecServeur({ id, title, price });
     }
   }
 

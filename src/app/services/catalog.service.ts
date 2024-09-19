@@ -1,44 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Product } from '../components/product/product.types';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs/internal/Observable';
+import { map, tap } from 'rxjs/operators';
+import { Subscription } from 'rxjs/internal/Subscription';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CatalogService {
-  private _products: Product[] = [
-    {
-      id: 'welsch',
-      title: 'Coding the welsch',
-      description: 'Tee-shirt col rond - Homme',
-      photo: '/assets/coding-the-welsch.jpg',
-      price: 20,
-      stock: 1,
-    },
-    {
-      id: 'world',
-      title: 'Coding the world',
-      description: 'Tee-shirt col rond - Homme',
-      photo: '/assets/coding-the-world.jpg',
-      price: 18,
-      stock: 2,
-    },
-    {
-      id: 'vador',
-      title: 'Duck Vador',
-      description: 'Tee-shirt col rond - Femme',
-      photo: '/assets/coding-the-stars.jpg',
-      price: 21,
-      stock: 2,
-    },
-    {
-      id: 'snow',
-      title: 'Coding the snow',
-      description: 'Tee-shirt col rond - Femme',
-      photo: '/assets/coding-the-snow.jpg',
-      price: 19,
-      stock: 0,
-    },
-  ];
+  private _products: Product[] = [];
 
   get products(): Product[] {
     return this._products;
@@ -48,6 +19,8 @@ export class CatalogService {
     return this._products.some(({ stock }) => stock > 0);
   }
 
+  constructor(private http: HttpClient) {}
+
   decreaseStock(productId: string): boolean {
     const product = this._products.find(({ id }) => id === productId);
 
@@ -56,5 +29,19 @@ export class CatalogService {
     }
     product.stock--;
     return true;
+  }
+
+  fecthProducts(): void {
+    this.http
+      .get<Product[]>('http://localhost:8080/api/products')
+      .pipe(tap((valeur) => console.log(valeur)))
+      .subscribe((success) => {
+        this._products = success;
+        console.log('fecthProducts : ', this._products);
+      });
+  }
+
+  fecthProducts2(): Observable<Product[]> {
+    return this.http.get<Product[]>('http://localhost:8080/api/products');
   }
 }
