@@ -19,29 +19,20 @@ export class CatalogService {
     return this._products.some(({ stock }) => stock > 0);
   }
 
-  constructor(private http: HttpClient) {}
+  constructor(private httpClient: HttpClient) {}
+
+  fetchProducts(): Observable<Product[]> {
+    return this.httpClient
+      .get<Product[]>('http://localhost:8080/api/products')
+      .pipe(tap((products) => (this._products = products)));
+  }
 
   decreaseStock(productId: string): boolean {
     const product = this._products.find(({ id }) => id === productId);
-
     if (!product || product.stock < 1) {
       return false;
     }
-    product.stock--;
+    product.stock -= 1;
     return true;
-  }
-
-  fecthProducts(): void {
-    this.http
-      .get<Product[]>('http://localhost:8080/api/products')
-      .pipe(tap((valeur) => console.log(valeur)))
-      .subscribe((success) => {
-        this._products = success;
-        console.log('fecthProducts : ', this._products);
-      });
-  }
-
-  fecthProducts2(): Observable<Product[]> {
-    return this.http.get<Product[]>('http://localhost:8080/api/products');
   }
 }

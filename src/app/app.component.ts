@@ -20,8 +20,8 @@ export class AppComponent implements OnInit {
     return this.catalogService.products;
   }
 
-  get hasProductsInStock(): boolean | undefined {
-    return this.productsAffiches?.some(({ stock }) => stock > 0);
+  get hasProductsInStock() {
+    return this.catalogService.hasProductsInStock;
   }
 
   get total() {
@@ -39,10 +39,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.catalogService.fecthProducts();
-    this.catalogService.fecthProducts2().subscribe((success) => {
-      this.productsAffiches = success;
-    });
+    this.catalogService.fetchProducts().subscribe();
   }
 
   valoriserPanier({ id, title, price }: Product) {
