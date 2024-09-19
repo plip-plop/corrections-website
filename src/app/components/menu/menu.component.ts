@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { BasketService } from '../../services/basket.service';
 
 @Component({
   selector: 'app-menu',
@@ -6,6 +7,9 @@ import { Component, Input } from '@angular/core';
   styleUrl: './menu.component.css',
 })
 export class MenuComponent {
-  @Input()
-  total!: number;
+  get items() {
+    return this.basketService.items.length;
+  }
+
+  constructor(private basketService: BasketService) {}
 }

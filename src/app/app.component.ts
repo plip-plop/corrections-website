@@ -1,5 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { Product } from './components/product/product.types';
+import { BasketService } from './services/basket.service';
+import { CatalogService } from './services/catalog.service';
+import { APP_TITLE } from './app.token';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-root',
@@ -7,50 +11,27 @@ import { Product } from './components/product/product.types';
   styleUrl: './app.component.css',
 })
 export class AppComponent {
-  title = 'my first component';
   total = 0;
 
-  products: Product[] = [
-    {
-      id: 'welsch',
-      title: 'Coding the welsch',
-      description: 'Tee-shirt col rond - Homme',
-      photo: '/assets/coding-the-welsch.jpg',
-      price: 20,
-      stock: 1,
-    },
-    {
-      id: 'world',
-      title: 'Coding the world',
-      description: 'Tee-shirt col rond - Homme',
-      photo: '/assets/coding-the-world.jpg',
-      price: 18,
-      stock: 2,
-    },
-    {
-      id: 'vador',
-      title: 'Duck Vador',
-      description: 'Tee-shirt col rond - Femme',
-      photo: '/assets/coding-the-stars.jpg',
-      price: 21,
-      stock: 2,
-    },
-    {
-      id: 'snow',
-      title: 'Coding the snow',
-      description: 'Tee-shirt col rond - Femme',
-      photo: '/assets/coding-the-snow.jpg',
-      price: 19,
-      stock: 0,
-    },
-  ];
+  products: Product[] = this.catalogService.products;
 
   get hasProductsInStock(): boolean {
     return this.products.some(({ stock }) => stock > 0);
   }
 
-  valoriserPanier(product: Product) {
-    this.total++;
-    product.stock--;
+  constructor(
+    private catalogService: CatalogService,
+    private basketService: BasketService,
+    @Inject(APP_TITLE) public appTitle: string,
+    public titleService: Title
+  ) {
+    titleService.setTitle('plop');
+  }
+
+  valoriserPanier({ id, title, price }: Product) {
+    const success = this.catalogService.decreaseStock(id);
+    if (success) {
+      this.basketService.addItem({ id, title, price });
+    }
   }
 }
