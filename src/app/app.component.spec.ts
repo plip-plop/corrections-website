@@ -1,33 +1,31 @@
-import { TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
+import { ProductComponent } from './components/product/product.component';
+import { MenuComponent } from './components/menu/menu.component';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
-describe('AppComponent', () => {
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
+fdescribe('AppComponent', () => {
+  let component: AppComponent;
+  let fixture: ComponentFixture<AppComponent>;
+  beforeEach(() => {
+    TestBed.configureTestingModule({
       declarations: [AppComponent],
-    }).compileComponents();
-  });
-
-  it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
-  });
-
-  it(`should have as title 'zenika-ng-website'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('my first component');
-  });
-
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    });
+    fixture = TestBed.createComponent(AppComponent);
+    component = fixture.componentInstance;
     fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain(
-      'Welcome to my first component!'
-    );
   });
+  it('should create the app', () => {
+    expect(component).toBeTruthy();
+  });
+
+  it('should display the products', () => {});
+
+  // ----- DOM Testing (the hard way) -----
+  it('should update the total when a product emits the "addToBasket" event', () => {});
+
+  // ----- Class Testing (the easy way) -----
+  it('should update the total when "addToBasket" class method is called', () => {});
 });
