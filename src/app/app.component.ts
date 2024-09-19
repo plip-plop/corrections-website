@@ -20,8 +20,8 @@ export class AppComponent implements OnInit {
     return this.catalogService.products;
   }
 
-  get hasProductsInStock(): boolean {
-    return this.products.some(({ stock }) => stock > 0);
+  get hasProductsInStock(): boolean | undefined {
+    return this.productsAffiches?.some(({ stock }) => stock > 0);
   }
 
   get total() {
