@@ -1,0 +1,14 @@
+<h2 class="h4">Mon panier</h2>
+<div class="card">
+  <div class="card-header">{{ items.length }} articles</div>
+  <ul class="list-group list-group-flush">
+    <!-- Use `*ngFor` directive to loop over the basket items -->
+    <li
+      class="list-group-item d-flex justify-content-between"
+      *ngFor="let item of items"
+    >
+      {{ item.title }}
+      <span class="text-primary">{{ item.price | currency }}</span>
+    </li>
+  </ul>
+</div>
