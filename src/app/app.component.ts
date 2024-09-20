@@ -40,14 +40,13 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.catalogService.fetchProducts().subscribe();
+    this.basketService.fetchBasket().subscribe();
   }
 
   valoriserPanier({ id, title, price }: Product) {
-    const success = this.catalogService.decreaseStock(id);
-    if (success) {
-      this.basketService.addItem({ id, title, price });
-      this.basketService.addItemAvecServeur({ id, title, price });
-    }
+    this.basketService.addItemAvecServeur(id).subscribe(() => {
+      this.catalogService.decreaseStock(id);
+    });
   }
 
   trackByProductId(_: number, { id }: Product) {
